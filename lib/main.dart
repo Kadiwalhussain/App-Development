@@ -9,49 +9,76 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'QR Code Scanner and Generator',
       debugShowCheckedModeBanner: false,
-      home: Homepage()
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true,
+      ),
+      home: const HomePage(),
     );
   }
 }
 
-class HomePage extends statefulWidget {
-  const HomePage ({Key? key}) :super (key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
-  }
+}
 
-  class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('QR CODE SCANNER AND GENERATOR'), backgroundColor: Color.blue,),
+      appBar: AppBar(
+        title: const Text(
+          'QR CODE SCANNER AND GENERATOR',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.blue,
+        centerTitle: true,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(onPressed: () {
-              setState(() {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ScanQrCode());
-
-              });
-            }, child: Text('Scan Qr Code'))
-            SizedBox(height: 40,),
-            ElevatedButton(onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> GenerateQrCode());
-
-            }, child: Text('Generate QR Code'))
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const ScanQrCode()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              child: const Text('Scan QR Code'),
+            ),
+            const SizedBox(height: 40),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const GenerateQrCode()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              child: const Text('Generate QR Code'),
+            ),
           ],
-        )
-      )
+        ),
+      ),
     );
-
   }
 }
 
