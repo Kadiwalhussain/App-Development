@@ -4,6 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:qr_code_scanner/services/history_service.dart';
 
+/// Regular expression pattern for validating email addresses
+final RegExp _emailPattern = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+/// Regular expression pattern for validating phone numbers
+final RegExp _phonePattern = RegExp(r'^\+?[\d\s-]{10,}$');
+
 class ScanQrCode extends StatefulWidget {
   const ScanQrCode({super.key});
 
@@ -39,10 +45,10 @@ class _ScanQrCodeState extends State<ScanQrCode> with SingleTickerProviderStateM
   bool get _isUrl => qrResult.startsWith('http://') || qrResult.startsWith('https://');
   
   bool get _isEmail => qrResult.startsWith('mailto:') || 
-      RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(qrResult);
+      _emailPattern.hasMatch(qrResult);
   
   bool get _isPhone => qrResult.startsWith('tel:') || 
-      RegExp(r'^\+?[\d\s-]{10,}$').hasMatch(qrResult);
+      _phonePattern.hasMatch(qrResult);
 
   Future<void> scanQR() async {
     try {
