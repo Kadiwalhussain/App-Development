@@ -11,20 +11,41 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:qr_code_scanner/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Home page displays main features', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that the app title is displayed
+    expect(find.text('QR Code Pro'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Verify that main feature cards are present
+    expect(find.text('Scan'), findsOneWidget);
+    expect(find.text('Generate'), findsOneWidget);
+    expect(find.text('Templates'), findsOneWidget);
+    expect(find.text('History'), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the quick templates section exists
+    expect(find.text('Quick Templates'), findsOneWidget);
+
+    // Verify that theme toggle button exists
+    expect(find.byIcon(Icons.dark_mode), findsOneWidget);
+
+    // Verify that history button in app bar exists
+    expect(find.byIcon(Icons.history), findsNWidgets(2)); // One in app bar, one in feature card
+  });
+
+  testWidgets('Theme toggle changes icon', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(const MyApp());
+
+    // Initially should show dark mode icon (to switch to dark mode)
+    expect(find.byIcon(Icons.dark_mode), findsOneWidget);
+
+    // Tap the theme toggle button
+    await tester.tap(find.byIcon(Icons.dark_mode));
+    await tester.pumpAndSettle();
+
+    // After toggle, should show light mode icon (to switch to light mode)
+    expect(find.byIcon(Icons.light_mode), findsOneWidget);
   });
 }
